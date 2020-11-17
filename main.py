@@ -4,7 +4,6 @@ import pandas as pd
 import json
 import requests
 import streamlit as st
-import matplotlib.pyplot as plt
 from specific_func import downloading_json_file, split_json_to_dfs
 import plotly.express as px
 import plotly.graph_objects as go
