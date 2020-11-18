@@ -75,7 +75,8 @@ st.plotly_chart(fig_dc)
 # Chloropleth
 @st.cache
 def choropleth_maps():
-        map_df = combined_df[combined_df['date'] == today][['date', 'total_cases', 'country_code', 'location']]
+        df = combined_df.copy()
+        map_df = df[df['date'] == today][['date', 'total_cases', 'country_code', 'location']]
         map_df = map_df[map_df['location'] != 'World']
         return map_df
 
