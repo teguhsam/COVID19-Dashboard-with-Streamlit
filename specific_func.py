@@ -38,10 +38,10 @@ def split_json_to_dfs(dataframe):
     combined_df['date']= pd.to_datetime(combined_df['date'])
 
     # Replacing Location
-    combined_df = combined_df.merge(country_key, how='left',left_on='country_code', right_on='index').drop(['country_code', 'index'], axis = 1)
-    col_reorder = combined_df.columns.to_list()
-    if 'location' in col_reorder: col_reorder.remove('location')
-    col_reorder.insert(1, 'location')
-    combined_df = combined_df[col_reorder]
+    combined_df = combined_df.merge(country_key, how='left',left_on='country_code', right_on='index').drop(['index'], axis = 1)
+    #col_reorder = combined_df.columns.to_list()
+    #if 'location' in col_reorder: col_reorder.remove('location')
+    #col_reorder.insert(1, 'location')
+    #combined_df = combined_df[col_reorder]
     
     return country_information, country_key, combined_df
