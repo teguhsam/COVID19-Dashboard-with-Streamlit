@@ -29,13 +29,14 @@ st.title("COVID-19 Dashboard")
 
 # Dropdown Option
 drop_option = country_key['location'].to_list()
-country_select = st.sidebar.selectbox("Country", drop_option, index=214)
+country_select = st.sidebar.selectbox("Country", drop_option, index=drop_option.index('Canada'))
 
 # Selection Confirmation and Data Update
 st.write("Country Selected: {}".format(country_select))
 today = combined_df['date'].max()
 st.write("Data last updated: {}".format(str(today.date())))
 
+# ----------------------------------------------------------------------------
 # Data Card
 def filter_country_information(country_selected):
     df = country_information.copy()
@@ -71,12 +72,14 @@ fig_dc.update_layout(
         width = 800,
         height = 200)
 st.plotly_chart(fig_dc)
-
+# ----------------------------------------------------------------------------
 # Chloropleth
+
 @st.cache
 def choropleth_maps():
         df = combined_df.copy()
-        map_df = df[df['date'] == today][['date', 'total_cases', 'country_code', 'location']]
+        previous_date = df[df['date'] != today]['date'].max()
+        map_df = df[df['date'] == previous_date][['date', 'total_cases', 'country_code', 'location']]
         map_df = map_df[map_df['location'] != 'World']
         return map_df
 
@@ -126,3 +129,15 @@ st.plotly_chart(new_deaths)
 
 total_cases = px.line(data_frame=current_country, x = 'date', y = 'total_cases', title= 'Total Cases in {}'.format(country_select), width= 700, height= 450, labels={"total_cases": "Total Cases"})
 st.plotly_chart(total_cases)
+
+# ----------------------------------------------------------------------------
+# Continent Rank
+
+def check_continent(country):
+    country_continent = dict(zip(country_key.location, country_key.continent))
+    continent_name = country_continent[country]
+    return continent_name
+
+
+continent = check_continent(country_select)
+
